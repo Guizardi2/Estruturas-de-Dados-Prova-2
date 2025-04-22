@@ -89,25 +89,64 @@ class Pilha {
 };
 
 template <class T>
-Pilha<T>::Pilha(size_t capacidade) {}
+Pilha<T>::Pilha(size_t capacidade)
+    : capacidade(capacidade), tamanho(0), dados(new T[capacidade]) {}
 
 template <class T>
-Pilha<T>::~Pilha() {}
+Pilha<T>::~Pilha() {
+  delete[] dados;
+}
 
 template <class T>
-void Pilha<T>::empilhar(const T& valor) {}
+void Pilha<T>::empilhar(const T& valor) {
+  if (esta_cheia()){
+    throw std::runtime_error("A pilha está cheia");
+  }
+  dados[tamanho] = valor;
+  tamanho++;
+}
 
 template <class T>
-T Pilha<T>::desempilhar() {}
+T Pilha<T>::desempilhar() {
+  if (esta_vazia()){
+    throw std::runtime_error("a pilha esta vazia");
+  }
+  tamanho--;
+  return dados[tamanho];
+}
 
 template <class T>
-T& Pilha<T>::topo() {}
+T& Pilha<T>::topo() {
+  if (esta_vazia()) {
+    throw std::runtime_error("a pilha esta vazia");
+  }
+  return dados[tamanho - 1];
+}
 
 template <class T>
-const T& Pilha<T>::topo() const {}
+const T& Pilha<T>::topo() const {
+  if (esta_vazia()) {
+    throw std::runtime_error("a pilha esta vazia");
+  }
+  return dados[tamanho - 1];
+}
 
 template <class T>
-bool Pilha<T>::esta_vazia() const {}
+bool Pilha<T>::esta_vazia() const {
+  if(tamanho == 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
 template <class T>
-bool Pilha<T>::esta_cheia() const {}
+bool Pilha<T>::esta_cheia() const {
+  if(tamanho == capacidade){ //se o tamanho estiver igual a capacidade
+    return true;
+  }
+  else{
+    return false;
+  }
+}
